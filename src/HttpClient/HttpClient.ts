@@ -1,5 +1,3 @@
-import axios from 'axios';
-
 import {CreateStreamRequest} from "../types/Stream";
 import {Topic, TopicRequest} from "../types/Topic";
 import {Stream} from "../types/Stream";

@@ -10,7 +10,7 @@ export class ApiClient {
         try {
             const response = await axios({
                 method,
-                url: `${this.baseUrl}/${endpoint}`,
+                url: `${this.baseUrl}${endpoint}`,
                 headers: { 'Content-Type': 'application/json' },
                 data: data ? toSnakeCase(data) : undefined,
             });
