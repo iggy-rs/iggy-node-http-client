@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios, {isAxiosError} from "axios";
 import {toSnakeCase} from "../utils/toSnakeCase";
 
 export class ApiClient {
@@ -16,10 +16,7 @@ export class ApiClient {
             });
             return response.data;
         } catch (e: unknown) {
-            if (axios.isAxiosError(e)) {
-                throw new Error(e.message);
-            }
-            throw new Error('Unknown error occurred.');
+            throw e
         }
     }
 

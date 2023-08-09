@@ -37,8 +37,8 @@ export class HttpClient {
         return this.apiClient.getMany('/streams');
     }
 
-    async getStream(streamId: number): Promise<Stream> {
-        return this.apiClient.getOne(`/streams/${streamId}`);
+    async getStream(streamIdOrName: string | number): Promise<Stream> {
+        return this.apiClient.getOne(`/streams/${streamIdOrName}`);
     }
     async createStream(data: CreateStreamRequest): Promise<void> {
         return this.apiClient.post('/streams', data)
@@ -55,8 +55,8 @@ export class HttpClient {
         return this.apiClient.getMany(`/streams/${streamId}/topics`);
     }
 
-    async getTopic(streamId: number, topicId: number): Promise<Topic> {
-        return this.apiClient.getOne(`/streams/${streamId}/topics/${topicId}`);
+    async getTopic(streamId: number, topicIdOrName: number | string): Promise<Topic> {
+        return this.apiClient.getOne(`/streams/${streamId}/topics/${topicIdOrName}`);
     }
 
     async deleteTopic(streamId: number, topicId: number): Promise<void> {
