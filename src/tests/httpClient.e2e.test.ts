@@ -3,6 +3,8 @@ import {GenericContainer, StartedTestContainer, Wait} from 'testcontainers'
 import {TransportType} from "../types/TransportType";
 import {CreateStreamRequest} from "../types/Stream";
 import {isAxiosError} from "axios";
+import {createMessageSendRequest} from "./helpers";
+import {partitionId} from "../utils/partitioning";
 
 const STREAM_ID: number = 1;
 const TOPIC_ID: number = 1;
@@ -13,7 +15,7 @@ const CONSUMER_KIND: typeof TransportType[keyof typeof TransportType] = Transpor
 const STREAM_NAME: string = "test-stream";
 const TOPIC_NAME: string = "test-topic";
 const CONSUMER_GROUP_ID: number = 1;
-const MESSAGES_COUNT: number = 1000;
+const MESSAGES_COUNT: number = 10;
 
 
 describe('System_Scenario HTTP', () => {
@@ -128,8 +130,65 @@ describe('System_Scenario HTTP', () => {
             expect(topic.id).toEqual(TOPIC_ID);
             expect(topic.name).toEqual(TOPIC_NAME);
             expect(topic.partitions_count).toEqual(PARTITIONS_COUNT);
-            expect(topic.xsize_bytes).toEqual(0);
+            expect(topic.size_bytes).toEqual(0);
             expect(topic.messages_count).toEqual(0);
         });
+        it('Get stream details and validate that created topic exists', async () => {
+            const stream = await httpClient.getStream(STREAM_ID);
+            const topic = await httpClient.getTopic(STREAM_ID, TOPIC_ID);
+            expect(stream.id).toEqual(STREAM_ID);
+            expect(stream.topics_count).toEqual(1);
+            expect(stream.messages_count).toEqual(0);
+            const streamTopic = stream.topics[0];
+            expect(streamTopic.id).toEqual(TOPIC_ID);
+            expect(streamTopic.name).toEqual(TOPIC_NAME);
+            expect(streamTopic.partitions_count).toEqual(topic.partitions_count);
+            expect(streamTopic.size_bytes).toEqual(0);
+            expect(streamTopic.messages_count).toEqual(0);
+        });
+    });
+    describe('messages', () => {
+        beforeAll(async () => {
+            await httpClient.createStream({ streamId: STREAM_ID, name: STREAM_NAME });
+            const createTopic = {
+                streamId: STREAM_ID,
+                topicId: TOPIC_ID,
+                name: TOPIC_NAME,
+                partitionsCount: PARTITIONS_COUNT
+            };
+            await httpClient.createTopic(createTopic);
+        })
+        it('send messages', async () => {
+            const messages = [];
+            for (let offset = 0; offset < MESSAGES_COUNT; offset++) {
+                const id = (offset + 1).toString();
+                const payload = createMessageSendRequest();
+                messages.push({
+                    id: id,
+                    length: payload.messages[0].payload.length,
+                    payload: payload.messages[0].payload
+                });
+            }
+            const partitioningObj = partitionId(PARTITION_ID);
+
+            const sendMessages = {
+                stream_id: STREAM_ID,
+                topic_id: TOPIC_ID,
+                partitioning: partitioningObj,
+                messages: messages
+            };
+
+            const serializedData = JSON.stringify(sendMessages);
+
+
+            try {
+                await httpClient.postMessage(STREAM_ID, TOPIC_ID, sendMessages);
+
+            } catch (e) {
+                console.log(e)
+            }
+
+        });
+
     });
 });

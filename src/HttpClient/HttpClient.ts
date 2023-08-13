@@ -1,4 +1,4 @@
-import {CreateStreamRequest} from "../types/Stream";
+import {CreateStreamRequest, StreamDetails} from "../types/Stream";
 import {Topic, TopicRequest} from "../types/Topic";
 import {Stream} from "../types/Stream";
 import {ApiClient} from "../api/apiClient";
@@ -37,7 +37,7 @@ export class HttpClient {
         return this.apiClient.getMany('/streams');
     }
 
-    async getStream(streamIdOrName: string | number): Promise<Stream> {
+    async getStream(streamIdOrName: string | number): Promise<StreamDetails> {
         return this.apiClient.getOne(`/streams/${streamIdOrName}`);
     }
     async createStream(data: CreateStreamRequest): Promise<void> {
