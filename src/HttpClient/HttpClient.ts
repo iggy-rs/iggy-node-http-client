@@ -63,8 +63,8 @@ export class HttpClient {
         return this.apiClient.delete(`/streams/${streamId}/topics/${topicId}`);
     }
 
-    async postMessage(streamId: number, topicId: number, message: any): Promise<any> {
-        return this.apiClient.post(`/streams/${streamId}/topics/${topicId}/messages`, { message });
+    async postMessage(streamId: number, topicId: number, payload: any): Promise<void> {
+        return this.apiClient.post(`/streams/${streamId}/topics/${topicId}/messages`, payload);
     }
 
     async getMessage(streamId: number, topicId: number, params: Record<string, unknown>): Promise<any[]> {

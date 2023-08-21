@@ -2,7 +2,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 enum PartitioningKind {
     Balanced = "Balanced",
-    PartitionId = "PartitionId",
+    PartitionId = "partition_id",
     MessageKey = "MessageKey"
 }
 

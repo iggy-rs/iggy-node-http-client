@@ -154,36 +154,14 @@ describe('System_Scenario HTTP', () => {
                 streamId: STREAM_ID,
                 topicId: TOPIC_ID,
                 name: TOPIC_NAME,
-                partitionsCount: PARTITIONS_COUNT
+                partitionsCount: 100
             };
             await httpClient.createTopic(createTopic);
         })
         it('send messages', async () => {
-            const messages = [];
-            for (let offset = 0; offset < MESSAGES_COUNT; offset++) {
-                const id = (offset + 1).toString();
-                const payload = createMessageSendRequest();
-                messages.push({
-                    id: id,
-                    length: payload.messages[0].payload.length,
-                    payload: payload.messages[0].payload
-                });
-            }
-            const partitioningObj = partitionId(PARTITION_ID);
-
-            const sendMessages = {
-                stream_id: STREAM_ID,
-                topic_id: TOPIC_ID,
-                partitioning: partitioningObj,
-                messages: messages
-            };
-
-            const serializedData = JSON.stringify(sendMessages);
-
-
+            const serializedData = createMessageSendRequest()
             try {
-                await httpClient.postMessage(STREAM_ID, TOPIC_ID, sendMessages);
-
+                await httpClient.postMessage(STREAM_ID, TOPIC_ID, serializedData);
             } catch (e) {
                 console.log(e)
             }

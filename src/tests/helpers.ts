@@ -1,7 +1,7 @@
 import { v4 as uuidv4 } from 'uuid';
 
 enum PartitioningKind {
-    PartitionId = "PartitionId"
+    PartitionId = "partition_id"
 }
 
 
@@ -9,6 +9,14 @@ function createDummyObject(): any {
     return { key: "value" };
 }
 
+
+function generateRandomBase64Content(byteLength: number) {
+    const randomBuffer = Buffer.alloc(byteLength);
+    for (let i = 0; i < byteLength; i++) {
+        randomBuffer[i] = Math.floor(Math.random() * 256);
+    }
+    return randomBuffer.toString('base64');
+}
 export function createMessageSendRequest() {
     const val = Math.floor(Math.random() * 68) + 1;
     const valBytes = Buffer.alloc(4);
@@ -22,12 +30,12 @@ export function createMessageSendRequest() {
 
     const messages = [
         {
-            id: uuidv4(),
-            payload: Buffer.from(JSON.stringify(createDummyObject()), 'utf-8')
+            id: 0,
+            payload: generateRandomBase64Content(4)
         },
         {
-            id: uuidv4(),
-            payload: Buffer.from(JSON.stringify(createDummyObject()), 'utf-8')
+            id: 0,
+            payload: generateRandomBase64Content(4)
         }
     ];
 
