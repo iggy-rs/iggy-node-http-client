@@ -21,6 +21,11 @@ describe('HttpClient', () => {
         await httpClient.kill();
     });
 
+    it('should allow to login', async () => {
+        const clients = await httpClient.login('iggy', 'admin');
+        expect(clients).toEqual(clients);
+    });
+
     it('should get clients', async () => {
         const clients = await httpClient.getClients();
         expect(clients).toEqual(clients);

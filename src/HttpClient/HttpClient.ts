@@ -12,6 +12,10 @@ export class HttpClient {
         this.apiClient = new ApiClient(baseAddress);
     }
 
+    async login(username: string, password: string): Promise<any> {
+        return this.apiClient.post('/users/login', { username, password });
+    }
+
 
     async getClients(): Promise<any[]> {
         return this.apiClient.getMany('/clients');
