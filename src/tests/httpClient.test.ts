@@ -1,6 +1,6 @@
-import {HttpClient} from "../HttpClient/HttpClient";
-import {CreateStreamRequest} from "../types/Stream";
-import {TopicRequest} from "../types/Topic";
+import { HttpClient } from '../HttpClient/HttpClient';
+import { CreateStreamRequest } from '../types/Stream';
+import { TopicRequest } from '../types/Topic';
 
 const BASE_URL = 'http://localhost:3000';
 
@@ -14,7 +14,11 @@ describe('HttpClient', () => {
     beforeEach(async () => {
         httpClient = new HttpClient(BASE_URL);
         await httpClient.createStream({ streamId: 5, name: 'Test Stream' });
-        await httpClient.createTopic({ topicId: 5, name: 'Test Topic', partitionsCount: 5 });
+        await httpClient.createTopic({
+            topicId: 5,
+            name: 'Test Topic',
+            partitionsCount: 5,
+        });
     });
 
     afterEach(async () => {
@@ -46,7 +50,6 @@ describe('HttpClient', () => {
         expect(Object.keys(stats)).toHaveLength(21);
     });
 
-
     it('should get streams', async () => {
         const streams = await httpClient.getStreams();
         expect(streams).toEqual('1');
@@ -64,7 +67,11 @@ describe('HttpClient', () => {
     });
 
     it('should create a topic', async () => {
-        const data: TopicRequest = { topicId: 10, name: 'Test Topic', partitionsCount: 5 };
+        const data: TopicRequest = {
+            topicId: 10,
+            name: 'Test Topic',
+            partitionsCount: 5,
+        };
         await httpClient.createTopic(data);
         // expect(serverResponse.status).toEqual(200); // Or 201 if your server responds with Created status
     });
@@ -93,7 +100,11 @@ describe('HttpClient', () => {
 
     it('should post a message', async () => {
         const message = { text: 'Test Message' }; // Adjust this to your message structure
-        const response = await httpClient.postMessage(streamId, topicId, message);
+        const response = await httpClient.postMessage(
+            streamId,
+            topicId,
+            message
+        );
         // expect(response).toEqual(serverResponse.body);
     });
 
@@ -107,33 +118,58 @@ describe('HttpClient', () => {
         const consumerId = 1; // Update with real consumerId
         const partitionId = 1; // Update with real partitionId
         const offset = 1; // Update with real offset
-        const response = await httpClient.putMessageOffset(streamId, topicId, consumerId, partitionId, offset);
+        const response = await httpClient.putMessageOffset(
+            streamId,
+            topicId,
+            consumerId,
+            partitionId,
+            offset
+        );
         // expect(response).toEqual(serverResponse.body);
     });
 
     it('should get a message offset', async () => {
         const params = {}; // Update this with your parameters
-        const offsets = await httpClient.getMessageOffset(streamId, topicId, params);
+        const offsets = await httpClient.getMessageOffset(
+            streamId,
+            topicId,
+            params
+        );
         // expect(offsets).toEqual(response.body);
     });
 
     it('should get consumer groups', async () => {
-        const consumerGroups = await httpClient.getConsumerGroups(streamId, topicId);
+        const consumerGroups = await httpClient.getConsumerGroups(
+            streamId,
+            topicId
+        );
         // expect(consumerGroups).toEqual(response.body);
     });
 
     it('should get a consumer group', async () => {
-        const consumerGroup = await httpClient.getConsumerGroup(streamId, topicId, consumerGroupId);
+        const consumerGroup = await httpClient.getConsumerGroup(
+            streamId,
+            topicId,
+            consumerGroupId
+        );
         // expect(consumerGroup).toEqual(response.body);
     });
 
     it('should post a consumer group', async () => {
-        const response = await httpClient.postConsumerGroup(streamId, topicId, consumerGroupId);
+        const response = await httpClient.postConsumerGroup(
+            streamId,
+            topicId,
+            consumerGroupId
+        );
         // expect(response).toEqual(serverResponse.body);
     });
 
     it('should delete a consumer group', async () => {
-        await httpClient.deleteConsumerGroup(streamId, topicId, consumerGroupId);
+        await httpClient.deleteConsumerGroup(
+            streamId,
+            topicId,
+            consumerGroupId
+        );
         // expect(serverResponse.status).toEqual(200); // Or 204 if your server responds with No Content status
     });
 });

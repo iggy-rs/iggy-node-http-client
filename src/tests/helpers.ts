@@ -1,14 +1,12 @@
 import { v4 as uuidv4 } from 'uuid';
 
 enum PartitioningKind {
-    PartitionId = "partition_id"
+    PartitionId = 'partition_id',
 }
-
 
 function createDummyObject(): any {
-    return { key: "value" };
+    return { key: 'value' };
 }
-
 
 function generateRandomBase64Content(byteLength: number) {
     const randomBuffer = Buffer.alloc(byteLength);
@@ -25,23 +23,22 @@ export function createMessageSendRequest() {
     const partitioning = {
         kind: PartitioningKind.PartitionId,
         length: 4,
-        value: valBytes.toString('base64')
+        value: valBytes.toString('base64'),
     };
 
     const messages = [
         {
             id: 0,
-            payload: generateRandomBase64Content(4)
+            payload: generateRandomBase64Content(4),
         },
         {
             id: 0,
-            payload: generateRandomBase64Content(4)
-        }
+            payload: generateRandomBase64Content(4),
+        },
     ];
 
     return {
         partitioning: partitioning,
-        messages: messages
+        messages: messages,
     };
 }
-

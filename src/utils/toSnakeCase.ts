@@ -1,6 +1,6 @@
-
-
-export function toSnakeCase<T extends Record<string, any>>(obj: T): Record<string, any> {
+export function toSnakeCase<T extends Record<string, any>>(
+    obj: T
+): Record<string, any> {
     if (typeof obj !== 'object' || obj === null) {
         return obj;
     }
@@ -9,9 +9,14 @@ export function toSnakeCase<T extends Record<string, any>>(obj: T): Record<strin
         return obj.map(toSnakeCase);
     }
 
-    return Object.entries(obj)
-        .reduce((result, [key, value]) => ({
+    return Object.entries(obj).reduce(
+        (result, [key, value]) => ({
             ...result,
-            [key.split(/(?=[A-Z])/).join('_').toLowerCase()]: toSnakeCase(value),
-        }), {});
+            [key
+                .split(/(?=[A-Z])/)
+                .join('_')
+                .toLowerCase()]: toSnakeCase(value),
+        }),
+        {}
+    );
 }
