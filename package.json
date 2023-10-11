@@ -37,5 +37,8 @@
   "bugs": {
     "url": "https://github.com/iggy-rs/iggy-node-client/issues"
   },
-  "homepage": "https://github.com/iggy-rs/iggy-node-client#readme"
+  "homepage": "https://github.com/iggy-rs/iggy-node-client#readme",
+  "volta": {
+    "node": "18.18.1"
+  }
 }
