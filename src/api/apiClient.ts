@@ -1,4 +1,4 @@
-import axios, { isAxiosError } from 'axios';
+import axios from 'axios';
 
 import { toSnakeCase } from '../utils/toSnakeCase';
 
@@ -10,7 +10,7 @@ export class ApiClient {
     private async sendHttpRequest<T>(
         endpoint: string,
         method: 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH',
-        data?: any
+        data?: unknown
     ): Promise<T> {
         const response = await axios({
             method,

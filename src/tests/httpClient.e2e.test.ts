@@ -1,15 +1,9 @@
-import {
-    GenericContainer,
-    StartedTestContainer,
-    Wait,
-    TestContainer,
-} from 'testcontainers';
+import { GenericContainer, StartedTestContainer, Wait } from 'testcontainers';
 import { isAxiosError } from 'axios';
 
 import { HttpClient } from '../HttpClient/HttpClient';
 import { TransportType } from '../types/TransportType';
 import { CreateStreamRequest } from '../types/Stream';
-import { partitionId } from '../utils/partitioning';
 
 import { createMessageSendRequest } from './helpers';
 
