@@ -11,15 +11,15 @@ export class HttpClient {
         this.apiClient = new ApiClient(baseAddress);
     }
 
-    async login(username: string, password: string): Promise<any> {
+    async login(username: string, password: string): Promise<unknown> {
         return this.apiClient.post('/users/login', { username, password });
     }
 
-    async getClients(): Promise<any[]> {
+    async getClients(): Promise<unknown[]> {
         return this.apiClient.getMany('/clients');
     }
 
-    async getClient(clientId: number): Promise<any> {
+    async getClient(clientId: number): Promise<unknown> {
         return this.apiClient.getOne(`/clients/${clientId}`);
     }
 
@@ -49,7 +49,7 @@ export class HttpClient {
     async createTopic(data: TopicRequest): Promise<void> {
         return this.apiClient.post(`/streams/${data.topicId}/topics`, data);
     }
-    async deleteStream(streamId: number): Promise<any> {
+    async deleteStream(streamId: number): Promise<unknown> {
         return this.apiClient.delete(`/streams/${streamId}`);
     }
 
@@ -73,7 +73,7 @@ export class HttpClient {
     async postMessage(
         streamId: number,
         topicId: number,
-        payload: any
+        payload: unknown
     ): Promise<void> {
         return this.apiClient.post(
             `/streams/${streamId}/topics/${topicId}/messages`,
@@ -85,7 +85,7 @@ export class HttpClient {
         streamId: number,
         topicId: number,
         params: Record<string, unknown>
-    ): Promise<any[]> {
+    ): Promise<unknown[]> {
         return this.apiClient.getOne(
             `/streams/${streamId}/topics/${topicId}/messages`
         );
@@ -97,7 +97,7 @@ export class HttpClient {
         consumerId: number,
         partitionId: number,
         offset: number = 1
-    ): Promise<any> {
+    ): Promise<unknown> {
         return this.apiClient.put(
             `/streams/${streamId}/topics/${topicId}/messages/offsets`,
             'PUT',
@@ -109,13 +109,16 @@ export class HttpClient {
         streamId: number,
         topicId: number,
         params: Record<string, unknown>
-    ): Promise<any[]> {
+    ): Promise<unknown[]> {
         return this.apiClient.getOne(
             `/streams/${streamId}/topics/${topicId}/messages/offsets`
         );
     }
 
-    async getConsumerGroups(streamId: number, topicId: number): Promise<any[]> {
+    async getConsumerGroups(
+        streamId: number,
+        topicId: number
+    ): Promise<unknown[]> {
         return this.apiClient.getMany(
             `/streams/${streamId}/topics/${topicId}/consumer-groups`
         );
@@ -125,7 +128,7 @@ export class HttpClient {
         streamId: number,
         topicId: number,
         consumerGroupId: number
-    ): Promise<any[]> {
+    ): Promise<unknown[]> {
         return this.apiClient.getOne(
             `/streams/${streamId}/topics/${topicId}/consumer-groups/${consumerGroupId}`
         );
