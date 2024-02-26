@@ -1,6 +1,7 @@
 import { CreateStreamRequest, StreamDetails, Stream } from '../types/Stream';
-import { Topic, TopicRequest } from '../types/Topic';
+import type { Topic, TopicRequest } from '../types/Topic';
 import { ApiClient } from '../api/apiClient';
+import type { LoginResponse } from '../types/Login';
 
 export class HttpClient {
     /**
@@ -11,7 +12,7 @@ export class HttpClient {
         this.apiClient = new ApiClient(baseAddress);
     }
 
-    async login(username: string, password: string): Promise<unknown> {
+    async login(username: string, password: string): Promise<LoginResponse> {
         return this.apiClient.post('/users/login', { username, password });
     }
 
